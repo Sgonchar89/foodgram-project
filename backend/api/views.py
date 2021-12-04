@@ -1,38 +1,35 @@
 import djoser
-from django.conf import settings
+# from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.tokens import default_token_generator
-from django.core import mail
-from django.db.models import Avg, Count, Sum
+# from django.contrib.auth.tokens import default_token_generator
+# from django.core import mail
+from django.db.models import Sum
 from django.http import HttpResponse
 from django.template.loader import get_template
 from django_filters.rest_framework import DjangoFilterBackend
-from djoser import signals, utils
+from djoser import utils
 from djoser.compat import get_user_email
-from rest_framework import filters, generics, permissions, status, viewsets
-from rest_framework.authtoken.models import Token
-from rest_framework.decorators import action, api_view, permission_classes
+from rest_framework import filters, permissions, status, viewsets
+# from rest_framework.authtoken.models import Token
+from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.mixins import (CreateModelMixin, DestroyModelMixin,
                                    ListModelMixin, RetrieveModelMixin)
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import (IsAuthenticated, AllowAny,
-                                        IsAuthenticatedOrReadOnly)
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from wkhtmltopdf.views import PDFTemplateResponse
 
-from .filters import RecipeFilter, IngredientFilter
-from .models import (Cart, Comment, Favourite, Follow, Ingredient,
+from .filters import IngredientFilter, RecipeFilter
+from .models import (Cart, Favourite, Follow, Ingredient,
                      IngredientsAmount, Recipe, Tag, User)
-from .permissions import (IsAdministrator, IsAdministratorOrReadOnly,
-                          IsAuthorOrAdminOrModerator)
+from .permissions import IsAdministratorOrReadOnly, IsAuthorOrAdminOrModerator
 from .serializers import (CartSerializer, CommentSerializer,
-                          CustomUserSerializer, FavouriteSerializer,
-                          FollowSerializer, IngredientsAmountSerializer,
+                          CustomUserSerializer,
+                          FollowSerializer,
                           IngredientSerializer, RecipeCreateSerializer,
-                          RecipeReadSerializer, RecipeReadShortSerializer,
-                          SetPasswordRetypeSerializer, SetPasswordSerializer,
+                          RecipeReadSerializer,
                           TagSerializer, UserSerializer)
 
 
@@ -118,7 +115,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
         pagination_class=None,
         permission_classes=[permissions.IsAuthenticated]
     )
-
     def favorite(self, request, pk):
         user = request.user
         recipe = get_object_or_404(Recipe, id=pk,)

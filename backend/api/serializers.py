@@ -3,14 +3,11 @@ import requests.exceptions
 from django.contrib.auth.password_validation import validate_password
 from django.core import exceptions as django_exceptions
 from djoser.conf import settings
-from rest_framework.generics import get_object_or_404
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
-from rest_framework.serializers import (ModelSerializer,
-                                        PrimaryKeyRelatedField,
-                                        SerializerMethodField)
+from rest_framework.generics import get_object_or_404
+from rest_framework.serializers import SerializerMethodField
 from rest_framework.validators import UniqueTogetherValidator
-from rest_framework.views import exceptions
 
 from .models import (Cart, Comment, Favourite, Follow, Ingredient,
                      IngredientsAmount, Recipe, Tag, User)
@@ -336,6 +333,7 @@ class FollowSerializer(serializers.ModelSerializer):
 class FavouriteSerializer(serializers.ModelSerializer):
     recipe = serializers.PrimaryKeyRelatedField(queryset=Recipe.objects.all())
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+
     class Meta:
         model = Favourite
         fields = ("user", "recipe", )
@@ -346,7 +344,7 @@ class FavouriteSerializer(serializers.ModelSerializer):
 # worthless
         if (self.context.get('request').method == 'GET'
                 and Favourite.objects.filter(user=user,
-                                            recipe__id=recipe_id).exists()):
+                                             recipe__id=recipe_id).exists()):
             raise serializers.ValidationError(
                 'Рецепт уже добавлен в избранное')
 
@@ -367,8 +365,6 @@ class FavouriteSerializer(serializers.ModelSerializer):
             "image": instance.recipe.image.url,
             "cooking_time": instance.recipe.cooking_time,
         }
-
-
 
 
 class CartSerializer(serializers.ModelSerializer):

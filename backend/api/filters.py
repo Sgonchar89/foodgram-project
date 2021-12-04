@@ -1,9 +1,10 @@
 import django_filters
-from django.contrib.auth import get_user_model
-from .models import Recipe, Ingredient, User
+# from django.contrib.auth import get_user_model
 from django_filters.rest_framework import filters
 
-User = get_user_model()
+from .models import Ingredient, Recipe, User
+
+# User = get_user_model()
 
 
 class RecipeFilter(django_filters.FilterSet):
@@ -33,6 +34,7 @@ class IngredientFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(field_name='name',
                                      lookup_expr='startswith',
                                      )
+
     class Meta:
         model = Ingredient
         fields = ('name',)
