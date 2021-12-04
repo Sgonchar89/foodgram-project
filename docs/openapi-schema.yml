@@ -432,7 +432,7 @@ paths:
   /api/users/{id}/:
     get:
       operationId: Профиль пользователя
-      description: 'Доступно всем пользователям.'
+      description: 'Доступно только авторизованным пользователям.'
       security:
         - Token: [ ]
       parameters:
@@ -794,6 +794,8 @@ components:
           pattern: ^[-a-zA-Z0-9_]+$
           description: 'Уникальный слаг'
           example: 'breakfast'
+      required:
+      - name
     RecipeList:
       type: object
       properties:
