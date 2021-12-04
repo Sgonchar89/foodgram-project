@@ -1,7 +1,7 @@
-# Foodgramm
 ![YaMDb workflow](https://github.com/Sgonchar89/foodgram-project/actions/workflows/yamdb_workflow.yml/badge.svg)
 
-### Description:
+# Foodgramm
+## Description:
 Web application for publishing recipes for various dishes.
 Implemented the following functionality: authentication system, view recipes, create new recipes, update recipes, add recipes to favorites and shopping list, download a shopping list to a text file, the ability to subscribe to the authors of the recipes.
 The backend part of the project uses the following technologies:
