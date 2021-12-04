@@ -1,4 +1,4 @@
-![YaMDb workflow](https://github.com/Sgonchar89/foodgram-project/actions/workflows/yamdb_workflow.yml/badge.svg)
+![Foodgramm workflow](https://github.com/Sgonchar89/foodgram-project/actions/workflows/foodgramm_workflow.yml/badge.svg)
 
 # Foodgramm
 
@@ -10,30 +10,29 @@ _Python3, Django, DjangoREST Framework, PostgreSQL, CI/CD - GitHub Actions, Dock
 
 
 ## Project launch
-
-###The project is deployed at: 
+### The project is deployed at: 
 ```
 http://foodgramm.co.vu/
 ```
 
-###Django's admin panel is deployed at:
+### Django's admin panel is deployed at:
 ```
 http://foodgramm.co.vu/admin/
 ```
 
-###Install Docker and Docker-compose:
+### Install Docker and Docker-compose:
 ```
 sudo apt install docker.io 
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
-###Cloning a project from GitHub:
+### Cloning a project from GitHub:
 ```
 git clone https://github.com/Sgonchar89/foodgram-project.git
 ```
 
-###Description of the .env file:
+### Description of the .env file:
 This file contains environment variables for working with the database
 ```
 DB_ENGINE=django.db.backends.postgresql - Here we specify which database the application works with. 
@@ -44,18 +43,18 @@ DB_HOST=db - The name of the service (container).
 DB_PORT=5432 - DB connection port.
 ```
 
-###To start the project, run the command from the `/infra` directory:
+### To start the project, run the command from the `/infra` directory:
 ```
 sudo docker-compose up
 ```
 
-###Next, you need to perform database migrations and collect statics:
+### Next, you need to perform database migrations and collect statics:
 ```
 sudo docker-compose exec backend python manage.py migrate --noinput
 sudo docker-compose exec backend python manage.py collectstatic --no-input 
 ```
 
-###Creating a superuser: 
+### Creating a superuser: 
 ```
 sudo docker-compose exec backend python manage.py createsuperuser
 ```
