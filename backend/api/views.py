@@ -22,15 +22,13 @@ from rest_framework.views import APIView
 from wkhtmltopdf.views import PDFTemplateResponse
 
 from .filters import IngredientFilter, RecipeFilter
-from .models import (Cart, Favourite, Follow, Ingredient,
-                     IngredientsAmount, Recipe, Tag, User)
+from .models import (Cart, Favourite, Follow, Ingredient, IngredientsAmount,
+                     Recipe, Tag, User)
 from .permissions import IsAdministratorOrReadOnly, IsAuthorOrAdminOrModerator
 from .serializers import (CartSerializer, CommentSerializer,
-                          CustomUserSerializer,
-                          FollowSerializer,
+                          CustomUserSerializer, FollowSerializer,
                           IngredientSerializer, RecipeCreateSerializer,
-                          RecipeReadSerializer,
-                          TagSerializer, UserSerializer)
+                          RecipeReadSerializer, TagSerializer, UserSerializer)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -246,8 +244,8 @@ class DownloadShoppingCart(APIView):
                             f'{item["ingredient__measurement_unit"]} \n')
 
         response = HttpResponse(wishlist, 'Content-Type: text/plain')
-        response['Content-Disposition'] =\
-            'attachment; filename="wishlist.txt"'
+        response['Content-Disposition'] = ('attachment; '
+                                           'filename="wishlist.txt"')
         return response
 
 

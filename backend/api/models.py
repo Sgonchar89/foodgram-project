@@ -55,13 +55,13 @@ class User(AbstractUser):
         return self.email
 
     @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-    def create_auth_token(sender, instance=None, created=False, **kwargs):
+    def create_auth_token(self, sender, instance=None, created=False,
+                          **kwargs):
         if created:
             Token.objects.create(user=instance)
 
 
 class Tag(models.Model):
-    """Тэги."""
     name = models.CharField(
         max_length=200,
         verbose_name='Название',
