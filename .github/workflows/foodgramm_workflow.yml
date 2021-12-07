@@ -50,35 +50,38 @@ jobs:
           file: ./backend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO_NAME }}:latest
-#
-#  deploy:
-#      runs-on: ubuntu-latest
-#      needs: build_and_push_to_docker_hub
-#      if: github.ref == 'refs/heads/master'
-#      steps:
-#        - name: executing remote ssh commands to deploy
-#          uses: appleboy/ssh-action@master
-#          with:
-#            host: ${{ secrets.HOST }}
-#            username: ${{ secrets.USER }}
-#            key: ${{ secrets.SSH_KEY }}
-#            stack_file_name: docker-compose.yaml
-#            passphrase: ${{ secrets.PASSPHRASE }}
-#            script: |
-#              sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO_NAME }}
-#              sudo docker-compose stop
-#              sudo docker-compose rm backend
-#              # Создаст файл для переменных окружения
-#              touch .env
-#              # Наполнит файл переменными окружения из секретов GitHub
-#              echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
-#              echo DB_NAME=${{ secrets.DB_NAME }} >> .env
-#              echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
-#              echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
-#              echo DB_HOST=${{ secrets.DB_HOST }} >> .env
-#              echo DB_PORT=${{ secrets.DB_PORT }} >> .env
-#              sudo docker-compose up -d
-#
+
+  deploy:
+      runs-on: ubuntu-latest
+      needs: build_and_push_to_docker_hub
+      if: github.ref == 'refs/heads/master'
+      steps:
+        - name: executing remote ssh commands to deploy
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USER }}
+            key: ${{ secrets.SSH_KEY }}
+            stack_file_name: docker-compose.yaml
+            passphrase: ${{ secrets.PASSPHRASE }}
+            script: |
+              cd foodgram-project/backend
+              rm .env
+              # Создаст файл для переменных окружения
+              touch .env
+              # Наполнит файл переменными окружения из секретов GitHub
+              echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
+              echo DB_NAME=${{ secrets.DB_NAME }} >> .env
+              echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
+              echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
+              echo DB_HOST=${{ secrets.DB_HOST }} >> .env
+              echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+              cd ../infra
+              sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPO_NAME }}
+              sudo docker-compose stop
+              sudo docker-compose rm backend
+              sudo docker-compose up -d
+
 #  send_message:
 #    runs-on: ubuntu-latest
 #    needs: deploy
