@@ -11,7 +11,6 @@ SECRET_KEY = 'ryu)&)hind9w(zp()o#h86^+c90mv3nitkavs=26k9h(6p^s@1'
 DEBUG = False
 
 ALLOWED_HOSTS = ['84.252.142.247', 'localhost', 'foodgramm.co.vu']
-# ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',

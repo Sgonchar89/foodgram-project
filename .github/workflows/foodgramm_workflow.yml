@@ -67,9 +67,8 @@ jobs:
             script: |
               cd foodgram-project/backend
               rm .env
-              # Создаст файл для переменных окружения
               touch .env
-              # Наполнит файл переменными окружения из секретов GitHub
+              # Filling the file with environment variables from GitHub secrets
               echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
               echo DB_NAME=${{ secrets.DB_NAME }} >> .env
               echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
