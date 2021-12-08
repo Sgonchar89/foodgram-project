@@ -5,7 +5,6 @@ from django.core import exceptions as django_exceptions
 from djoser.conf import settings
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
-from rest_framework.generics import get_object_or_404
 from rest_framework.serializers import SerializerMethodField
 from rest_framework.validators import UniqueTogetherValidator
 
@@ -166,8 +165,8 @@ class IngredientSerializer(serializers.ModelSerializer):
         try:
             ingredient = Ingredient.objects.get(id=data)
         except Ingredient.DoesNotExist:
-            raise serializers.ValidationError({f"Ингредиента с id={data}"
-                                               f" не существует."})
+            raise serializers.ValidationError({f"An ingredient with id={data}"
+                                               f" does not exist."})
         return ingredient
 
 
@@ -250,27 +249,27 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         ingredients_ids = [ingredient["id"] for ingredient in ingredients]
         if len(ingredients) != len(set(ingredients_ids)):
             raise serializers.ValidationError(
-                {"detail": "Нельзя добавлять одни и те же ингредиенты"
-                           " несколько раз."})
+                {"detail": "You cannot add the same"
+                           " ingredients more than once."})
         for item in ingredients:
             if int(item['amount']) < 0:
                 raise serializers.ValidationError(
-                    {"detail": "Убедитесь, что значение количества"
-                     "ингредиента больше 0"})
+                    {"detail": "Make sure that the value of the"
+                     " ingredient quantity is more than 0"})
         tags = data['tags']
         existing_tags = {}
         for tag in tags:
             if tag in existing_tags:
                 raise serializers.ValidationError(
-                    {"detail": "Нельзя добавлять одни и те же теги"
-                               " несколько раз."})
+                    {"detail": "You cannot add the same"
+                               " tags more than once."})
             existing_tags['tag'] = True
         return data
 
     def validate_cooking_time(self, data):
         if data <= 0:
             raise serializers.ValidationError(
-                'Введите целое число больше 0 для времени готовки'
+                "Enter an integer more than 0 for the cooking time"
             )
         return data
 
@@ -328,43 +327,6 @@ class FollowSerializer(serializers.ModelSerializer):
             instance.user,
             context={"request": self.context.get("request")}
         ).data
-
-
-class FavouriteSerializer(serializers.ModelSerializer):
-    recipe = serializers.PrimaryKeyRelatedField(queryset=Recipe.objects.all())
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-
-    class Meta:
-        model = Favourite
-        fields = ("user", "recipe", )
-
-    def validate(self, data):
-        user = self.context.get('request').user
-        recipe_id = data['recipe'].id
-# worthless
-        if (self.context.get('request').method == 'GET'
-                and Favourite.objects.filter(user=user,
-                                             recipe__id=recipe_id).exists()):
-            raise serializers.ValidationError(
-                'Рецепт уже добавлен в избранное')
-
-        recipe = get_object_or_404(Recipe, id=recipe_id)
-
-        if (self.context.get('request').method == 'DELETE'
-                and not Favourite.objects.filter(
-                    user=user,
-                    recipe=recipe).exists()):
-            raise serializers.ValidationError()
-
-        return data
-
-    def to_representation(self, instance):
-        return {
-            "id": instance.recipe.id,
-            "name": instance.recipe.name,
-            "image": instance.recipe.image.url,
-            "cooking_time": instance.recipe.cooking_time,
-        }
 
 
 class CartSerializer(serializers.ModelSerializer):

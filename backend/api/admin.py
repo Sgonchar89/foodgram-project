@@ -9,7 +9,7 @@ from .models import (Cart, Comment, Favourite, Follow, Ingredient,
 class UserAdmin(ModelAdmin):
     list_display = ('email', 'username', 'role')
     search_fields = ('username',)
-    empty_value_display = '-пусто-'
+    empty_value_display = '-empty-'
 
 
 @register(Tag)
@@ -23,7 +23,7 @@ class IngredientAdmin(admin.ModelAdmin):
     search_fields = ("name",)
     list_display = ("name",)
     list_filter = ("name",)
-    empty_value_display = "-пусто-"
+    empty_value_display = "-empty-"
 
 
 class IngredientsAmountInline(admin.TabularInline):
@@ -43,14 +43,14 @@ class RecipeAdmin(ModelAdmin):
 class FollowAdmin(ModelAdmin):
     list_display = ("author", "user")
     search_fields = ("author",)
-    empty_value_display = "-пусто-"
+    empty_value_display = "-empty-"
 
 
 @register(Favourite)
 class FavouriteAdmin(ModelAdmin):
     list_display = ("user", "recipe")
     search_fields = ("recipe",)
-    empty_value_display = "-пусто-"
+    empty_value_display = "-empty-"
 
 
 @register(Cart)
@@ -63,4 +63,4 @@ class CartAdmin(ModelAdmin):
 class CommentAdmin(ModelAdmin):
     list_display = ("recipe", "author", "text", "pub_date")
     search_fields = ("text",)
-    empty_value_display = "-пусто-"
+    empty_value_display = "-empty-"

@@ -1,8 +1,5 @@
 import djoser
-# from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
-# from django.contrib.auth.tokens import default_token_generator
-# from django.core import mail
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.template.loader import get_template
@@ -10,7 +7,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 from djoser import utils
 from djoser.compat import get_user_email
 from rest_framework import filters, permissions, status, viewsets
-# from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.mixins import (CreateModelMixin, DestroyModelMixin,
@@ -129,7 +125,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
         return Response(
-            {'detail': 'Действие уже выполнено'},
+            {'detail': 'Action already completed'},
             status=status.HTTP_400_BAD_REQUEST
         )
 
